@@ -8,21 +8,19 @@ interface IRoomParams{
 }
 export const roomHandler=(socket:Socket)=>{
     const createRoom=()=>{
-
-        console.log(`hii`)
         const roomId=uuidV4();
         rooms[roomId]=[];
         socket.emit('room-created',{roomId})
         console.log(`user create-room`)
     }
     const joinRoom=({roomId,peerId}:IRoomParams)=>{
-        if(rooms[roomId]){
+        if(rooms[roomId]){ 
         console.log(`user join-room ${roomId}`);
         rooms[roomId].push(peerId)
         socket.join(roomId);
         socket.to(roomId).emit('user-joined',{peerId})
         socket.emit('get-users',{
-            roomId,
+            roomId, 
             participants:rooms[roomId],
         })
         socket.on('disconnect',()=>{ 
